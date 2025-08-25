@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.kantser.controller.MainWindowController"
+            stylesheets="@styles/main.css">
+
+    <left>
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f0f0f0;">
+            <Button fx:id="currentButton" text=" Текущее" onAction="#showPlayerPanel" styleClass="side-button">
+                <graphic>
+                    <ImageView styleClass="side-button-image"  fitWidth="16" fitHeight="16">
+                        <Image url="@images/free-icon-music-note-117113.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="playlistButton" text=" Плейлист" onAction="#showPlaylistPanel" styleClass="side-button">
+                <graphic>
+                    <ImageView styleClass="side-button-image"  fitWidth="16" fitHeight="16">
+                        <Image url="@images/free-icon-bullet-list-625797.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="aboutButton" text=" О программе" onAction="#showAboutPanel" styleClass="side-button">
+                <graphic>
+                    <ImageView styleClass="side-button-image"  fitWidth="16" fitHeight="16">
+                        <Image url="@images/free-icon-info-1445402.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contentArea" />
+    </center>
+
+</BorderPane>

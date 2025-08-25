@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="10"
+      style="-fx-padding: 20;"
+      alignment="CENTER">
+
+    <Label text="Музыкальный проигрыватель" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <ImageView fitWidth="350" fitHeight="350">
+        <Image url="@images/elephant.jpg" />
+    </ImageView>
+    <Label text="Версия 1.0" style="-fx-font-size: 16px;"/>
+    <Label text="Разработано с использованием JavaFX" style="-fx-font-size: 14px;"/>
+    <Label text="© 2025 IGM" style="-fx-font-size: 12px;"/>
+
+</VBox>
