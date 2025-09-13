@@ -1,7 +1,6 @@
 package ru.kantser.controller;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -12,9 +11,9 @@ import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.kantser.model.Track;
-import ru.kantser.service.AppModule;
 import ru.kantser.service.AudioPlayerService;
 import ru.kantser.service.PlaylistService;
+import ru.kantser.service.settings.JacksonSettingsService;
 
 public class PlayerPanelController {
     private static final Logger logger = LoggerFactory.getLogger(PlayerPanelController.class);
@@ -46,13 +45,13 @@ public class PlayerPanelController {
     @Inject
     private PlaylistService playlistService;
 
+
     private Timeline progressTimeline;
 
     @FXML
     public void initialize() {
         // Начальное состояние - воспроизведение
-        playPauseButton.getStyleClass().add("play-state");
-
+        playPauseButton.getStyleClass().add("ready-for-play");
         // Настройка слайдера громкости
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (audioPlayerService != null) {
@@ -81,13 +80,8 @@ public class PlayerPanelController {
 
     private void updatePlaybackStateFromService() {
         if (audioPlayerService != null) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                //throw new RuntimeException(e);
-            }
-            boolean isPlaying = audioPlayerService.isPlaying();
-            updatePlaybackState(isPlaying);
+            //updatePlaybackState(audioPlayerService.getCurrentTrack() != null);
+            updatePlaybackState(audioPlayerService.isPlaying());
         }
     }
 
@@ -117,20 +111,13 @@ public class PlayerPanelController {
     private void togglePlayPause() {
         if (audioPlayerService != null) {
             if (!audioPlayerService.isPlaying()) {
-                // Логика начала воспроизведения
+                logger.info("togglePlayPause переключаю на воспроизведение");
                 audioPlayerService.resume();
-                if (audioPlayerService.isPlaying()) {
-                    updateTrackInfo();
-                    playPauseButton.getStyleClass().remove("play-state");
-                    playPauseButton.getStyleClass().add("pause-state");
-                    progressTimeline.play(); // Запускаем обновление прогресса
-                }
+                setPlayState(audioPlayerService.isPlaying());
             } else {
-                // Логика паузы
+                logger.info("togglePlayPause переключаю на паузу");
                 audioPlayerService.pause();
-                playPauseButton.getStyleClass().remove("pause-state");
-                playPauseButton.getStyleClass().add("play-state");
-                progressTimeline.stop(); // Останавливаем обновление прогресса
+                setPlayState(false);
             }
         }
     }
@@ -141,10 +128,7 @@ public class PlayerPanelController {
             Track previousTrack = playlistService.getPreviousTrack();
             if (previousTrack != null) {
                 audioPlayerService.play(previousTrack);
-                updateTrackInfo();
-                playPauseButton.getStyleClass().remove("play-state");
-                playPauseButton.getStyleClass().add("pause-state");
-                progressTimeline.play();
+                setPlayState(true);
             }
         }
     }
@@ -155,10 +139,7 @@ public class PlayerPanelController {
             Track nextTrack = playlistService.getNextTrack();
             if (nextTrack != null) {
                 audioPlayerService.play(nextTrack);
-                updateTrackInfo();
-                playPauseButton.getStyleClass().remove("play-state");
-                playPauseButton.getStyleClass().add("pause-state");
-                progressTimeline.play();
+                setPlayState(true);
             }
         }
     }
@@ -175,13 +156,18 @@ public class PlayerPanelController {
     // Метод для обновления UI при изменении состояния воспроизведения извне
     public void updatePlaybackState(boolean isPlaying) {
         logger.info("Уведомление о начале проигрывания{}", isPlaying);
-        if (isPlaying) {
-            playPauseButton.getStyleClass().remove("play-state");
-            playPauseButton.getStyleClass().add("pause-state");
+        setPlayState(isPlaying);
+
+    }
+
+    private void setPlayState(boolean state){
+        if(state){
+            logger.info("Ставлю ПЛЕЙ");
+            playPauseButton.getStyleClass().remove("ready-for-play");
             progressTimeline.play();
-        } else {
-            playPauseButton.getStyleClass().remove("pause-state");
-            playPauseButton.getStyleClass().add("play-state");
+        }else{
+            logger.info("Ставлю СТОП");
+            playPauseButton.getStyleClass().add("ready-for-play");
             progressTimeline.stop();
         }
         updateTrackInfo();

@@ -15,7 +15,9 @@
     <HBox spacing="10">
         <Button text="Добавить трек" onAction="#addTrack"/>
         <Button text="Очистить плейлист" onAction="#clearPlaylist"/>
+        <Button text="Сканировать папку" onAction="#addFolderForScan"/>
     </HBox>
+
 
     <ListView fx:id="playlistView" VBox.vgrow="ALWAYS"/>
 

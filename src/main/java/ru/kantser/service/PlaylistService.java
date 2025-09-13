@@ -1,24 +1,44 @@
 package ru.kantser.service;
 
+import com.google.inject.Inject;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.kantser.controller.MainWindowController;
 import ru.kantser.model.Playlist;
 import ru.kantser.model.Track;
 import javafx.collections.ObservableList;
+import ru.kantser.service.settings.JacksonPlayListService;
+
+import java.io.IOException;
 
 public class PlaylistService {
+    @Inject
+    JacksonPlayListService playListSaver;
+
+    @Getter
     private Playlist currentPlaylist;
     private int currentTrackIndex = -1;
     private static final Logger logger = LoggerFactory.getLogger(PlaylistService.class);
 
     public PlaylistService() {
-        currentPlaylist = new Playlist("Основной плейлист");
+
+    }
+
+    @Inject
+    public void initialize() {
+        logger.info("Инициализирую сервис плейлиста");
+        try {
+            currentPlaylist = playListSaver.loadPlayList();
+        } catch (IOException e) {
+            logger.warn("Ошибка чтения плейлиста при запуске {}", e.getMessage());
+            currentPlaylist = new Playlist("Основной плейлист");
+        }
     }
 
     public void addTrack(Track track) {
         currentPlaylist.addTrack(track);
         logger.info("Добавлен трек, теперь в коллекции {}", getCurrentPlaylist().getTracks().size());
+        updateFile("Добавление трека");
     }
 
     public void removeTrack(Track track) {
@@ -29,19 +49,17 @@ public class PlaylistService {
         if (index != -1 && index < currentTrackIndex) {
             currentTrackIndex--;
         }
+        updateFile("Удаление трека");
     }
 
     public void clearPlaylist() {
         currentPlaylist.clear();
         currentTrackIndex = -1;
+        updateFile("Очистка листа");
     }
 
     public ObservableList<Track> getTracks() {
         return currentPlaylist.getTracks();
-    }
-
-    public Playlist getCurrentPlaylist() {
-        return currentPlaylist;
     }
 
     public Track getNextTrack() {
@@ -76,5 +94,13 @@ public class PlaylistService {
 
     public void setCurrentTrack(Track track) {
         currentTrackIndex = currentPlaylist.getTracks().indexOf(track);
+    }
+
+    private void updateFile(String debugComment){
+        try {
+            playListSaver.savePlaylist(currentPlaylist);
+        } catch (IOException e) {
+            logger.warn("Не удалось обновление файла плейлиста{} при отладочном комментарии [{}]", e.getMessage(), debugComment);
+        }
     }
 }

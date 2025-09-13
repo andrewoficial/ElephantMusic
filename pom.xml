@@ -10,7 +10,7 @@
     <!-- Уникальные идентификаторы проекта: groupId - группа, artifactId - имя артефакта, version - версия. -->
     <groupId>ru.igm</groupId>
     <artifactId>FirstFX</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.4</version>
 
     <!-- Свойства: Переменные для упрощения конфигурации. -->
     <properties>
@@ -34,11 +34,56 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Автогенерация кода -->
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Конвертирование JSON в объекты и обратно -->
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+
+
+
+        <!-- Конвертирование JSON в объекты и обратно данные типа Duration-->
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+
         <!-- более лёгкий аналог Spring Boot -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>7.0.0</version>
+        </dependency>
+
+        <!-- Работа с тегами треков -->
+        <!-- https://mvnrepository.com/artifact/org/jaudiotagger -->
+        <dependency>
+            <groupId>org</groupId>
+            <artifactId>jaudiotagger</artifactId>
+            <version>2.0.3</version>
         </dependency>
 
         <!-- Базовый модуль JavaFX (платформо-независимый). -->
@@ -59,7 +104,12 @@
             <version>${javafx.version}</version>
             <classifier>linux</classifier>
         </dependency>
-
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
         <!-- Модуль JavaFX для элементов управления. -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -78,7 +128,12 @@
             <version>${javafx.version}</version>
             <classifier>linux</classifier>
         </dependency>
-
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
         <!-- Графический модуль JavaFX. -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -97,7 +152,12 @@
             <version>${javafx.version}</version>
             <classifier>linux</classifier>
         </dependency>
-
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
         <!-- Модуль JavaFX для работы с FXML. -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -116,7 +176,12 @@
             <version>${javafx.version}</version>
             <classifier>linux</classifier>
         </dependency>
-
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
         <!-- Модуль JavaFX для медиа. -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -135,11 +200,38 @@
             <version>${javafx.version}</version>
             <classifier>linux</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
+        <!-- Модуль JavaFX для просмотра веб-страничек -->
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-web -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
     </dependencies>
 
     <!-- Сборка: Настройка процесса сборки проекта, включая плагины Maven. Плагины упорядочены: компиляция, создание JAR, запуск/дистрибуция JavaFX. -->
     <build>
         <plugins>
+            <!-- Плагин, записывающий в манифест явы текущую версию приложения -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <!-- Плагин Maven Compiler: Компилирует Java-код.
                  Как вызвать: Автоматически в фазе compile (mvn compile, mvn package).
                  Как работает: Компилирует исходные файлы Java в байт-код для Java 21, сохраняя классы в target/classes. -->
@@ -150,6 +242,13 @@
                 <configuration>
                     <source>21</source>
                     <target>21</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 

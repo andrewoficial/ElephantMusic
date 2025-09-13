@@ -1,5 +1,23 @@
 Button{
     -fx-border-color: rgba(255, 170, 68, 0.2);
+    -fx-background-insets: 1, 1, 1, 1;
+    -fx-background-radius: 3px, 3px, 3px, 3px;
+}
+
+Button:armed{
+    -fx-border-color: #FFAA44;
+    -fx-background-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-alignment: center-left;
+    -fx-content-display: left;
+}
+
+Button:focused {
+    -fx-border-color: #ffb761;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
 Button.active{
@@ -7,9 +25,8 @@ Button.active{
     -fx-effect: dropshadow(gaussian, rgba(255, 152, 0, 0.4), 6, 0, 0, 2);
 }
 
-Button.focused {
+Button.clicked{
     -fx-border-color: #FFAA44;
-    -fx-border-width: 1px;
 }
 
 
@@ -83,7 +100,7 @@ Button.focused {
     -fx-shape: "M 0 0 H 3 V 10 H 0 Z M 6 0 H 9 V 10 H 6 Z"; /* Две полоски паузы */
 }
 
-#playPauseButton.play-state {
+#playPauseButton.ready-for-play {
     -fx-shape: "M 0 0 L 0 10 L 8 5 Z"; /* Стрелка воспроизведения */
 }
 

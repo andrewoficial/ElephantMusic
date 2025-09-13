@@ -2,7 +2,9 @@ package ru.kantser.controller;
 
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,47 +14,77 @@ import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.kantser.Launcher;
+import ru.kantser.model.AppSettings;
 import ru.kantser.service.AppModule;
 import ru.kantser.service.FxmlLoaderHelper;
+import ru.kantser.service.settings.JacksonSettingsService;
 
 import java.io.IOException;
 
 public class MainWindowController {
     private static final Logger logger = LoggerFactory.getLogger(MainWindowController.class);
-    @FXML
-    private StackPane contentArea;
+
+    @Inject
+    JacksonSettingsService settingsService;
 
     private VBox playerPanel;
     private VBox playlistPanel;
     private VBox aboutPanel;
+    private VBox lastFmPanel;
+
+    @FXML
+    private StackPane contentArea;
+
+
     @FXML
     private Button currentButton;
     @FXML
     private Button playlistButton;
     @FXML
     private Button aboutButton;
-    //private Injector injector = Guice.createInjector(new AppModule());
+    @FXML
+    private Button lastFmButton;
     @FXML
     public void initialize() {
+        if(settingsService == null){
+            logger.warn("settingsService == null");
+        }else {
+            logger.info("Инициализирую настройки");
+            AppSettings settings = null;
+            try {
+                settings = settingsService.loadSettings();
+            } catch (IOException e) {
+                settings = settingsService.getDefaultSettings();
+                logger.error(e.getMessage());
+            }
+
+            settings.setLanguage("ENG");
+            try {
+                settingsService.saveSettings(settings);
+            } catch (IOException e) {
+                //throw new RuntimeException(e);
+                logger.warn(e.getMessage());
+            }
+
+
+        }
         try {
             // Загрузка панелей из отдельных FXML файлов
             logger.info("Сосздаю панель playerPanel");
             playerPanel = FxmlLoaderHelper.load("/ru/kantser/view/player_panel.fxml");
-            logger.info("Создал панель playerPanel");
 
             logger.info("Сосздаю панель playlistPanel");
             playlistPanel = FxmlLoaderHelper.load("/ru/kantser/view/playlist_panel.fxml");
-            logger.info("Создал панель playlistPanel");
 
-            //FXMLLoader aboutLoader = new FXMLLoader(getClass().getResource("/ru/igm/view/about_panel.fxml"));
+            logger.info("Сосздаю панель lastFm");
+            lastFmPanel = FxmlLoaderHelper.load("/ru/kantser/view/last_fm_panel.fxml");
+
+            logger.info("Сосздаю панель aboutPanel");
             aboutPanel = FxmlLoaderHelper.load("/ru/kantser/view/about_panel.fxml");
-            logger.info("Создал панель aboutPanel");
-            // Показываем панель плейлиста по умолчанию
-            showPlayerPanel();
 
+            showPlayerPanel();
         } catch (IOException e) {
             logger.error(e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -73,11 +105,18 @@ public class MainWindowController {
         contentArea.getChildren().setAll(aboutPanel);
         setActiveButton(aboutButton);
     }
+    public void showLastFmPanel() {
+        contentArea.getChildren().setAll(lastFmPanel);
+        setActiveButton(lastFmButton);
+    }
 
     private void setActiveButton(Button activeButton) {
         currentButton.getStyleClass().remove("active");
         playlistButton.getStyleClass().remove("active");
         aboutButton.getStyleClass().remove("active");
+        lastFmButton.getStyleClass().remove("active");
         activeButton.getStyleClass().add("active");
     }
+
+
 }

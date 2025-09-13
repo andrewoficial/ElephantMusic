@@ -26,6 +26,13 @@
                     </ImageView>
                 </graphic>
             </Button>
+            <Button fx:id="lastFmButton" text=" Last FM" onAction="#showLastFmPanel" styleClass="side-button">
+            <graphic>
+                <ImageView styleClass="side-button-image"  fitWidth="16" fitHeight="16">
+                    <!-- <Image url="@images/free-icon-bullet-list-625797.png" /> -->
+                </ImageView>
+            </graphic>
+        </Button>
             <Button fx:id="aboutButton" text=" О программе" onAction="#showAboutPanel" styleClass="side-button">
                 <graphic>
                     <ImageView styleClass="side-button-image"  fitWidth="16" fitHeight="16">
