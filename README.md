@@ -50,7 +50,7 @@ ElephantMusic - это простой и симпатичный музыкаль
 
 ## Запуск приложения
 # Клонирование репозитория
-git clone https://github.com/your-username/FirstFX.git
+git clone https://github.com/andrewoficial/simple_audio_player.git
 cd FirstFX
 
 # Сборка проекта
