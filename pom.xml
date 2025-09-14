@@ -10,7 +10,7 @@
     <!-- Уникальные идентификаторы проекта: groupId - группа, artifactId - имя артефакта, version - версия. -->
     <groupId>ru.kantser.elephantmusic</groupId>
     <artifactId>elephant-music</artifactId> <!-- kebab-case - стандарт для Maven -->
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <name>ElephantMusic</name>
 
     <!-- Свойства: Переменные для упрощения конфигурации. -->
@@ -267,7 +267,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>${project.artifactId}-${project.version}</finalName>
+                            <finalName>ElephantMusic-${project.version}</finalName>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
@@ -298,14 +298,14 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>ru.kantser.elephantmusic.MyApplication</mainClass>
-                    <launcher>ElephantMonitor</launcher>
+                    <launcher>ElephantMusic</launcher>
                 </configuration>
                 <executions>
                     <execution>
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>ru.kantser.elephantmusic.MyApplication</mainClass>
-                            <launcher>ElephantMonitor</launcher>
+                            <launcher>ElephantMusic</launcher>
                         </configuration>
                     </execution>
                 </executions>
