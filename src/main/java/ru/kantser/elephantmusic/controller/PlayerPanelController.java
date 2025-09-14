@@ -49,6 +49,7 @@ public class PlayerPanelController {
 
     @FXML
     public void initialize() {
+        volumeSlider.setVisible(false);
         // Начальное состояние - воспроизведение
         playPauseButton.getStyleClass().add("ready-for-play");
         // Настройка слайдера громкости

@@ -27,9 +27,14 @@ public class JacksonSettingsService implements SettingsService {
     }
 
     @Override
-    public AppSettings loadSettings() throws IOException {
+    public AppSettings loadSettings(){
         if (Files.exists(settingsPath)) {
-            return objectMapper.readValue(settingsPath.toFile(), AppSettings.class);
+            try {
+                return objectMapper.readValue(settingsPath.toFile(), AppSettings.class);
+            } catch (IOException e) {
+                return getDefaultSettings();
+                //throw new RuntimeException(e);
+            }
         } else {
             return getDefaultSettings();
         }
@@ -38,15 +43,25 @@ public class JacksonSettingsService implements SettingsService {
 
 
     @Override
-    public void saveSettings(AppSettings settings) throws IOException {
+    public void saveSettings(AppSettings settings) {
         logger.info("Сохраняю в {}", settingsPath.getParent());
         if(settings == null){
             logger.warn("AppSettings settings IS NULL");
         }
-        Files.createDirectories(settingsPath.getParent());
+        try {
+            Files.createDirectories(settingsPath.getParent());
+        } catch (IOException e) {
+            logger.warn("AppSettings settings saving error {}", e.getMessage());
+            //throw new RuntimeException(e);
+        }
         //logger.info("Создал файл {}", settingsPath.toFile());
         logger.info("Язык в новых настройках {}", settings.getLanguage());
-        objectMapper.writeValue(settingsPath.toFile(), settings);
+        try {
+            objectMapper.writeValue(settingsPath.toFile(), settings);
+        } catch (IOException e) {
+            logger.warn("AppSettings settings writing file error {}", e.getMessage());
+            //throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -55,6 +70,7 @@ public class JacksonSettingsService implements SettingsService {
         defaults.setLanguage("RU");
         defaults.setLastFmName("Anonim");
         defaults.setLastFmToken("NULL");
+        defaults.setActiveScrobbling(true);
         return defaults;
     }
 }

@@ -17,4 +17,8 @@ public class AppSettings {
     @Getter @Setter
     private String lastFmToken;
 
+    @JsonProperty("activeScrobbling")
+    @Getter @Setter
+    private Boolean activeScrobbling;
+
 }

@@ -34,7 +34,10 @@ public class LastFmScrobblerService {
             logger.info("Not authenticated with Last.fm, skipping scrobble");
             return;
         }
-        
+        if(settingsService.loadSettings().getActiveScrobbling() == null || settingsService.loadSettings().getActiveScrobbling() == false){
+            logger.info("Скробблинг отключен");
+            return;
+        }
         CompletableFuture.runAsync(() -> {
             try {
                 Map<String, String> params = new HashMap<>();
@@ -66,7 +69,10 @@ public class LastFmScrobblerService {
         if (!authService.isAuthenticated()) {
             return;
         }
-        
+        if(settingsService.loadSettings().getActiveScrobbling() == null || settingsService.loadSettings().getActiveScrobbling() == false){
+            logger.info("Скробблинг отключен");
+            return;
+        }
         CompletableFuture.runAsync(() -> {
             try {
                 Map<String, String> params = new HashMap<>();

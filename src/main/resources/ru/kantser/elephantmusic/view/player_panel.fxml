@@ -30,8 +30,9 @@
     </HBox>
 
     <!-- Панель громкости -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Громкость:"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-visile: none;">
+        <!-- <Label text="Громкость:"/> -->
         <Slider fx:id="volumeSlider" min="0" max="100" value="50" styleClass="volume-slider"
                 HBox.hgrow="ALWAYS"/>
     </HBox>

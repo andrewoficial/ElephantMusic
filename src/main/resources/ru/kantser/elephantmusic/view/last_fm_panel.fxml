@@ -4,18 +4,30 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       spacing="10"
       style="-fx-padding: 20;"
-      fx:controller="ru.kantser.elephantmusic.controller.LastFmPanelController"
-      alignment="CENTER">
+      fx:controller="ru.kantser.elephantmusic.controller.LastFmPanelController">
 
-    <Button fx:id="lastFmLoginButton" text="Войти"
-            style="-fx-background-color: #1db954; -fx-text-fill: white;"
-            onAction="#handleLastFmLogin" />
+    <Label text="Last.fm интеграция" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <!-- Статус авторизации -->
 
+    <Label fx:id="statusLabel" style="-fx-font-size: 16px;"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <ToggleButton fx:id="scrobblingToggle" styleClass="toggle-switch" />
+        <Label text="Передавать данные в LastFM" />
+    </HBox>
+
+    <Button fx:id="logoutButton" text="Выйти из аккаунта"
+            styleClass="lastfm-logout-button"
+            onAction="#handleLastFmLogout"
+            visible="false" />
+
+    <Button fx:id="loginButton" text="Авторизоваться в Last.fm"
+            styleClass="lastfm-login-button"
+            onAction="#handleLastFmLogin"
+            visible="false" />
 
 </VBox>

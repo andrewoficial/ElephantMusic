@@ -32,7 +32,10 @@ module ru.kantser.elephantmusic {
     opens ru.kantser.elephantmusic.model to com.fasterxml.jackson.databind, com.fasterxml.jackson.datatype.jsr310; // Добавлен модуль jsr310
 
     // Если используете FXML
-    opens ru.kantser.elephantmusic.view to javafx.fxml;
+    //opens ru.kantser.elephantmusic.view to javafx.fxml;
 
-    exports ru.kantser.elephantmusic; // Exports the package containing MyApplication and Launcher
+    //Какие-то сложности, открыл для рефлексии для всех вообще
+
+    exports ru.kantser.elephantmusic;
+    // Exports the package containing MyApplication and Launcher
 }

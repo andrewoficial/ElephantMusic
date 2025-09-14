@@ -23,7 +23,18 @@ public class MainWindowController {
     private VBox playerPanel;
     private VBox playlistPanel;
     private VBox aboutPanel;
-    private VBox lastFmPanel;
+    private final VBox lastFmPanel;
+
+    {
+        try {
+            lastFmPanel = FxmlLoaderHelper.load("/ru/kantser/elephantmusic/view/last_fm_panel.fxml");
+        } catch (IOException e) {
+            logger.warn("Исключение при создании панели LastFM");
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     @FXML
     private StackPane contentArea;
@@ -44,20 +55,12 @@ public class MainWindowController {
         }else {
             logger.info("Инициализирую настройки");
             AppSettings settings = null;
-            try {
-                settings = settingsService.loadSettings();
-            } catch (IOException e) {
-                settings = settingsService.getDefaultSettings();
-                logger.error(e.getMessage());
-            }
+            settings = settingsService.loadSettings();
+
 
             settings.setLanguage("ENG");
-            try {
-                settingsService.saveSettings(settings);
-            } catch (IOException e) {
-                //throw new RuntimeException(e);
-                logger.warn(e.getMessage());
-            }
+            settingsService.saveSettings(settings);
+
 
 
         }
@@ -68,9 +71,17 @@ public class MainWindowController {
 
             logger.info("Сосздаю панель playlistPanel");
             playlistPanel = FxmlLoaderHelper.load("/ru/kantser/elephantmusic/view/playlist_panel.fxml");
+            if(playlistPanel == null){
+                logger.warn("Созданный объект NULL");
+            }
 
-            logger.info("Сосздаю панель lastFm");
-            lastFmPanel = FxmlLoaderHelper.load("/ru/kantser/elephantmusic/view/last_fm_panel.fxml");
+            logger.info("Сосздаю панель lastFm выполнено при инициализации класса");
+
+            if(lastFmPanel == null){
+                logger.warn("Созданный объект NULL");
+            }else{
+                logger.warn("Создан объект");
+            }
 
             logger.info("Сосздаю панель aboutPanel");
             aboutPanel = FxmlLoaderHelper.load("/ru/kantser/elephantmusic/view/about_panel.fxml");
@@ -98,9 +109,20 @@ public class MainWindowController {
         contentArea.getChildren().setAll(aboutPanel);
         setActiveButton(aboutButton);
     }
+
     public void showLastFmPanel() {
-        contentArea.getChildren().setAll(lastFmPanel);
-        setActiveButton(lastFmButton);
+        if(lastFmPanel == null){
+            logger.warn("lastFmPanel null объект");
+        }
+        try{
+            contentArea.getChildren().setAll(lastFmPanel);
+            setActiveButton(lastFmButton);
+        }catch (Exception ex){
+            logger.warn("Исключение во время создание панели LastFM {}", ex.getMessage());
+            logger.info(ex.toString());
+            ex.printStackTrace();
+        }
+
     }
 
     private void setActiveButton(Button activeButton) {

@@ -132,3 +132,84 @@ Button.clicked{
     -fx-pref-width: 10px;
 }
 
+/* LastFM */
+/* Стили для ToggleSwitch */
+.toggle-switch {
+    -fx-pref-width: 60px;
+    -fx-pref-height: 30px;
+}
+
+.toggle-switch:disabled {
+    -fx-opacity: 0.7;
+}
+
+/* Стили для кнопок Last.fm панели */
+
+
+/* Стили для кнопок Last.fm */
+
+/* Стили для переключателя с движущимся кружком */
+.toggle-switch {
+    -fx-background-color: #666666;
+    -fx-background-radius: 15px;
+    -fx-pref-width: 60px;
+    -fx-pref-height: 30px;
+    -fx-text-fill: transparent;
+}
+
+.toggle-switch:selected {
+    -fx-background-color: #FFAA44;
+}
+
+.toggle-switch .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-pref-width: 26px;
+    -fx-pref-height: 26px;
+}
+
+.toggle-switch:disabled {
+    -fx-opacity: 0.7;
+}
+
+.toggle-switch:disabled .thumb {
+    -fx-background-color: #cccccc;
+}
+
+/* Анимация для плавного перемещения кружка */
+.toggle-switch .thumb {
+    -fx-translate-x: -15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+    transition: -fx-translate-x 0.2s ease-in-out;
+}
+
+.toggle-switch:selected .thumb {
+    -fx-translate-x: 15px;
+}
+
+/* Стили для кнопок Last.fm */
+.lastfm-login-button {
+    -fx-background-color: #1db954;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.lastfm-login-button:hover {
+    -fx-background-color: #1ed760;
+}
+
+.lastfm-logout-button {
+    -fx-background-color: #ff6b6b;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.lastfm-logout-button:hover {
+    -fx-background-color: #ff8787;
+}
