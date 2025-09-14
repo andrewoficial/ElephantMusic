@@ -8,9 +8,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Уникальные идентификаторы проекта: groupId - группа, artifactId - имя артефакта, version - версия. -->
-    <groupId>ru.igm</groupId>
-    <artifactId>FirstFX</artifactId>
+    <groupId>ru.kantser</groupId>
+    <artifactId>elephant-music</artifactId> <!-- kebab-case - стандарт для Maven -->
     <version>1.0.4</version>
+    <name>ElephantMusic</name>
 
     <!-- Свойства: Переменные для упрощения конфигурации. -->
     <properties>
