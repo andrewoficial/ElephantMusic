@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Уникальные идентификаторы проекта: groupId - группа, artifactId - имя артефакта, version - версия. -->
-    <groupId>ru.kantser</groupId>
+    <groupId>ru.kantser.elephantmusic</groupId>
     <artifactId>elephant-music</artifactId> <!-- kebab-case - стандарт для Maven -->
     <version>1.0.4</version>
     <name>ElephantMusic</name>
@@ -281,7 +281,7 @@
                             </filters>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.kantser.Launcher</mainClass>
+                                    <mainClass>ru.kantser.elephantmusic.Launcher</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -297,15 +297,15 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>ru.kantser.MyApplication</mainClass>
-                    <launcher>FirstFX</launcher>
+                    <mainClass>ru.kantser.elephantmusic.MyApplication</mainClass>
+                    <launcher>ElephantMonitor</launcher>
                 </configuration>
                 <executions>
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>ru.kantser.MyApplication</mainClass>
-                            <launcher>FirstFX</launcher>
+                            <mainClass>ru.kantser.elephantmusic.MyApplication</mainClass>
+                            <launcher>ElephantMonitor</launcher>
                         </configuration>
                     </execution>
                 </executions>

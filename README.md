@@ -51,7 +51,7 @@ ElephantMusic - это простой и симпатичный музыкаль
 ## Запуск приложения
 # Клонирование репозитория
 git clone https://github.com/andrewoficial/simple_audio_player.git
-cd FirstFX
+cd ElephantMusic
 
 # Сборка проекта
 mvn clean package
@@ -62,7 +62,7 @@ mvn javafx:run
 # Или запустите собранный JAR:
 
 
-java -jar target/FirstFX-1.0.4.jar
+java -jar target/ElephantMusic-1.0.4.jar
 
     
 
